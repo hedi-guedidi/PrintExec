@@ -1,14 +1,32 @@
 public class PrintExec {
 	public static void main(String[] args) {
-			String str1="javac ";
-			String str2="java ";
-			String nameclass=args[1];
-			if(nameclass.charAt(0)=='\''){
-				nameclass.substring(1,nameclass.length()-1);
+			String res1="javac";
+			String res2="java";
+			String mainclass="";
+			String mainclasspath="";
+			String libs=".";
+			String bin="";
+			String bin2="";
+			int point=args.length-1;
+			if(args[args.length-1].equals("true")){
+				bin="-d bin/";
+				bin2="bin/";
+				point--;
 			}
-			str1=str1+"-cp "+"'.:"+args[0]+"' "+"'"+args[0]+args[1]+".java'"+((args[args.length-1].equals("true"))?" -d bin/":"");
-			str2=str2+"-cp "+"'.:"+args[0]+((args[args.length-1].equals("true"))?":bin/":"")+"' "+args[1];
-			System.out.println(str1);
-			System.out.println(str2);
+			if(args[args.length-1].equals("false")){
+				point--;
+			}
+			mainclass=args[point];
+			point--;
+			mainclasspath=args[point];
+			point--;
+			while(point>=0){
+				libs=libs+":"+args[point];
+				point--;
+			}
+			res1=res1+" -cp "+"'"+libs+":"+mainclasspath+"'"+" '"+mainclasspath+mainclass+".java"+"' "+bin;
+			res2=res2+" -cp "+"'"+libs+":"+mainclasspath+":"+bin2+"' "+mainclass;
+			System.out.println(res1);
+			System.out.println(res2);
 }
 }
